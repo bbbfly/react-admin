@@ -1,0 +1,33 @@
+.login {
+  height: 100%;
+  background: url(images/bg.jpg) no-repeat;
+  background-size: 100% 100%;
+}
+.login .login-header {
+  height: 80px;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 0 100px;
+  color: white;
+}
+.login .login-header .login-logo {
+  margin-right: 20px;
+  width: 40px;
+  height: 40px;
+}
+.login .login-box {
+  background: white;
+  border: 1px solid #efefef;
+  border-radius: 10px;
+  width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+}
+.login .login-box .login-title {
+  text-shadow: 3px 3px 3px  #ccc;
+  font-weight: bold;
+  font-size: 30px;
+  text-align: center;
+}
+.login .login-form-button {
+  width: 100%;
+}
