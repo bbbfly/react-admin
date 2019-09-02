@@ -1,0 +1,9 @@
+.left-nav .top {
+  margin: 30px 0;
+  color: white;
+  font-size: 25px;
+}
+.left-nav .left-nav-logo {
+  width: 40px;
+  height: 40px;
+}

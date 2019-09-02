@@ -16,7 +16,11 @@ code {
   height: 100%;
   color: #333;
 }
-
+.flex-r-a{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
 .flex-r-b{
   display: flex;
   align-items: center;

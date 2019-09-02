@@ -1,20 +1,35 @@
 import React, { Component } from 'react'
-import { Form, Icon, Input, Button } from 'antd';
+import {Redirect} from 'react-router-dom'
+import { Form, Icon, Input, Button, message } from 'antd';
 import logo from '../../assets/images/logo.png' 
 import './login.less'
+import {reqLogin} from '../../api/api'
+import {getUser,setUser} from '../../utils/localstorage'
+
  class Login extends Component {
 
     handleSubmit = e => {
         e.preventDefault();
-        this.props.form.validateFields((err,value) =>{
+        this.props.form.validateFields(async (err,value) =>{
             if(!err){
-                console.log(value)           
+                const result = await reqLogin(value.username,value.password)
+                if( result.status === 0){
+                    const user = result.data
+                    setUser(user)
+                    this.props.history.replace('/admin')
+                    message.success('登录成功')
+                }else{
+                    message.error(result.msg)
+                }       
             }
         })
     }
     render() {
+        const user = getUser()
+        if(user._id){
+            return <Redirect to='/'></Redirect>
+        }
         const { getFieldDecorator } = this.props.form;
-
         return (
             <div className='login'>
                 <div className='login-header flex'>
@@ -43,7 +58,7 @@ import './login.less'
                             {getFieldDecorator('password', {
                                 rules: [
                                     { required: true, whitespace:true, message: '密码不能为空！' },
-                                    { min: 6, message: '密码不能小于6位！' },
+                                    { min: 5, message: '密码不能小于5位！' },
                                     { max: 14, message: '密码不能大于14位！' },
                                     { pattern: /^[\w\d_]+/, message: '字母数字或下划线开头' },
                                 ],
