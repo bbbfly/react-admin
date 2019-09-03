@@ -9,6 +9,7 @@ import Category from '../category/category'
 import Role from '../role/role'
 import User from '../user/user'
 import Product from '../product/product'
+import './admin.less'
 const { Footer, Sider, Content} = Layout
 export default class Admin extends Component {
     loginOut = () => {

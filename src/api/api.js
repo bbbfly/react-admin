@@ -29,3 +29,29 @@ export const reqLogin = (username,password) => {
            })
 }
 
+export const reqCategorys = () => (
+    axios({
+        url: base + 'manage/category/list'
+    })
+)
+ 
+export const reqAddCategory = (categoryName) => (
+    axios({
+        url:base+'/manage/category/add',
+        method:'POST',
+        data:{
+            categoryName
+        }
+    })
+)
+
+export const reqUpdateCategory = ({categoryId,categoryName}) => (
+    axios({
+        url:base+'/manage/category/update',
+        method:'POST',
+        data:{
+            categoryId,
+            categoryName
+        }
+    })
+)

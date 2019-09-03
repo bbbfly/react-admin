@@ -1,4 +1,31 @@
 .header {
-  background: #ccc;
+  background: white;
   height: 80px;
+}
+.header .top {
+  text-align: right;
+  height: 40px;
+  border-bottom: 2px solid green;
+  line-height: 40px;
+  padding-right: 40px;
+}
+.header .bottom {
+  height: 40px;
+  padding: 0 40px;
+}
+.header .bottom .left {
+  font-size: 23px;
+  color: green;
+  position: relative;
+}
+.header .bottom .left::after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 50%;
+  margin-left: -20px;
+  border-top: 20px solid white;
+  border-right: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+  border-left: 20px solid transparent;
 }

@@ -7,15 +7,17 @@ import  './leftnav.less'
 const {SubMenu} = Menu
 class Leftnav extends Component {
     state = {
-        current:'/home'
+        openKey:'',
+        menuData:[]
     }
-    componentDidMount(){
+    componentWillMount(){
        const {pathname} = this.props.history.location
+       const data = this.getMenuNode(menuList,pathname)
        this.setState({
-           current:pathname
+           menuData:data
        })
     }
-    getMenuNode = (menuList) =>{
+    getMenuNode = (menuList,openKey) =>{
         return menuList.map( item => {
             if(!item.children){
                 return (
@@ -27,6 +29,12 @@ class Leftnav extends Component {
                     </Menu.Item>
                 )
             }
+            const citem = item.children.find( child => child.key === openKey )
+            if(citem) {   
+               this.setState({
+                   openKey:item.key
+               })
+            }
             return (
                 <SubMenu
                     key={item.key}
@@ -37,33 +45,28 @@ class Leftnav extends Component {
                     </span>
                     }
                 >
-                    {this.getMenuNode(item.children)}
+                    {this.getMenuNode(item.children,openKey)}
                 </SubMenu>
             )
         })
     }
-    handleClick = e => {
-        this.setState({
-          current: e.key,
-        });
-    }
     render() {
+        const selectKey = this.props.history.location.pathname
         return (
             <div className='left-nav'>
                 <Link className='flex-r-a top' to='/home'>
                     <img src={img} alt="logo" className='left-nav-logo'/>
-                    欢迎使用
+                    后台系统
                 </Link>
 
                 <Menu
                     theme='dark'
-                    defaultOpenKeys={['']}
-                    selectedKeys={[this.state.current]}
-                    onClick={this.handleClick}
+                    defaultOpenKeys={[this.state.openKey]}
+                    selectedKeys={[selectKey]}
                     mode="inline"
                     >
                     {
-                        this.getMenuNode(menuList)
+                       this.state.menuData
                     }
                 </Menu>
             </div>
