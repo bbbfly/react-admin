@@ -10,7 +10,7 @@ class Leftnav extends Component {
         openKey:'',
         menuData:[]
     }
-    componentWillMount(){
+    componentDidMount(){
        const {pathname} = this.props.history.location
        const data = this.getMenuNode(menuList,pathname)
        this.setState({

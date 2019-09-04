@@ -1,15 +1,16 @@
 import React, { Component } from 'react'
 import {withRouter} from 'react-router-dom'
-import {getUser,removeUser} from '../../utils/localstorage'
+import {connect} from 'react-redux'
 import {Modal} from 'antd'
 import menuList from '../../utils/menulist'
+import {logout} from '../../redux/actions'
 import './header.less'
  class Header extends Component {
     state = {
         titles:{},
         clock:''
     }
-    componentWillMount(){
+    componentDidMount(){
         this.formatDate()
         const titles = {}
         this.getTitle(titles,menuList)
@@ -19,19 +20,17 @@ import './header.less'
     }
     componentWillUnmount(){
         clearInterval(this.timer)
-        
     }
     logOut = () => {
         Modal.confirm({
             title:'确认退出？',
             onOk:()=>{
-                removeUser()
-                this.props.history.replace('/login')
+                this.props.logout()
             },
         })
     }
     getTitle = (titles={},menuList) => {
-        menuList.map( item => {
+        menuList.forEach( item => {
             titles[item.key] = item.title
             if(item.children){
                 this.getTitle(titles,item.children)
@@ -64,8 +63,8 @@ import './header.less'
             <div className='header'>
                 <div className='top'>
                     <span>
-                        欢迎 {getUser().username} , 
-                        <a  onClick={this.logOut}>退出</a>
+                        欢迎 {this.props.username} , 
+                        <a href='#####' onClick={this.logOut}>退出</a>
                     </span>
                 </div>
                 <div className='bottom flex-r-b'>
@@ -83,4 +82,9 @@ import './header.less'
     }
 }
 
-export default withRouter(Header)
+export default connect(
+    
+    state => ({
+        username: state.user.username
+    }),{logout}
+)( withRouter(Header))

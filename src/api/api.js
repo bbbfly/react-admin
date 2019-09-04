@@ -55,3 +55,14 @@ export const reqUpdateCategory = ({categoryId,categoryName}) => (
         }
     })
 )
+
+
+export const reqProductList = (pageNum,pageSize) => (
+    aios({
+        url:base+'/manage/product/list',
+        data:{
+            pageNum,
+            pageSize
+        }
+    })
+)

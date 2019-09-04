@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import {Redirect} from 'react-router-dom'
-import { Form, Icon, Input, Button, message } from 'antd';
+import {connect} from 'react-redux'
+import { Form, Icon, Input, Button } from 'antd';
+import {login} from '../../redux/actions'
 import logo from '../../assets/images/logo.png' 
 import './login.less'
-import {reqLogin} from '../../api/api'
-import {getUser,setUser} from '../../utils/localstorage'
 
  class Login extends Component {
 
@@ -12,21 +12,21 @@ import {getUser,setUser} from '../../utils/localstorage'
         e.preventDefault();
         this.props.form.validateFields(async (err,value) =>{
             if(!err){
-                const result = await reqLogin(value.username,value.password)
-                if( result.status === 0){
-                    const user = result.data
-                    setUser(user)
-                    this.props.history.replace('/admin')
-                    message.success('登录成功')
-                }else{
-                    message.error(result.msg)
-                }       
+                // const result = await reqLogin(value.username,value.password)
+                // if( result.status === 0){
+                //     const user = result.data
+                //     setUser(user)
+                //     this.props.history.replace('/admin')
+                //     message.success('登录成功')
+                // }else{
+                //     message.error(result.msg)
+                // } 
+                this.props.login(value.username,value.password)      
             }
         })
     }
     render() {
-        const user = getUser()
-        if(user._id){
+        if(this.props._id){
             return <Redirect to='/'></Redirect>
         }
         const { getFieldDecorator } = this.props.form;
@@ -82,4 +82,10 @@ import {getUser,setUser} from '../../utils/localstorage'
     }
 }
 
-export default Form.create()(Login)
+export default connect(
+    state=>({
+        _id: state.user._id
+    }),{
+        login
+    }
+)(Form.create()(Login)) 

@@ -1,18 +1,22 @@
 import React, { Component } from 'react'
-import {Card,Button,Icon,Table,Modal,message} from 'antd'
+import {Card,Button,Icon,Table,Modal} from 'antd'
 import CategoryInput from '../../components/categoryinput/categoryinput'
-import {reqCategorys,reqAddCategory,reqUpdateCategory} from '../../api/api'
+import {connect} from 'react-redux'
+import {getCategorys,addCategory,updateCategory} from '../../redux/actions'
 
-
-export default class Category extends Component {
-    state={
-        categorys:[],
-        currentCategory:{},
-        visible: 0, // 0 不显示 1 添加分类 2 修改
-    }
-    componentWillMount(){
-        this.initTable()
-        this.getCategorys()
+ class Category extends Component {
+     constructor(props){
+        super(props)
+        this.state={
+            currentCategory:{},
+            visible: 0, // 0 不显示 1 添加分类 2 修改
+        }
+        this.initTable()  
+     }
+    componentDidMount(){
+        if(!this.props.categorys.length){
+            this.props.getCategorys()
+        }
     }
     initTable(){
         this.columns = [
@@ -36,20 +40,6 @@ export default class Category extends Component {
               },
         ]
     }
-    async getCategorys (){
-        const result = await reqCategorys()
-        if(result.status === 0){
-            const categorys = result.data.map( item => {
-                item.key = item._id
-                return item
-            })     
-            this.setState({
-                categorys
-            })
-        }else{
-            message.error(result.msg)
-        }
-    }
     modalCancel =()=>{
         this.form.resetFields()
         this.setState({
@@ -61,20 +51,22 @@ export default class Category extends Component {
         this.form.validateFields(async (err,value)=>{
             if(!err){
                 this.form.resetFields()
-                let res = {}
+                // let res = {}
                 // 添加
                 if(visible === 1){
-                    res = await reqAddCategory(value.categoryName)
+                    // res = await reqAddCategory(value.categoryName)
+                    this.props.addCategory(value.categoryName)
                 }else{
                     //修改
-                    res = await reqUpdateCategory({categoryId:currentCategory._id,categoryName:value.categoryName})
+                    // res = await reqUpdateCategory({categoryId:currentCategory._id,categoryName:value.categoryName})
+                    this.props.updateCategory({categoryId:currentCategory._id,categoryName:value.categoryName})
                 }
-                if(res.status === 0){
-                    message.success('操作成功')
-                    this.getCategorys()
-                }else{
-                    message.error(res.msg)
-                }
+                // if(res.status === 0){
+                //     message.success('操作成功')
+                //     this.getCategorys()
+                // }else{
+                //     message.error(res.msg)
+                // }
             }
         })
     }
@@ -85,7 +77,8 @@ export default class Category extends Component {
                 添加
             </Button>
         )
-        const {visible,categorys,currentCategory} = this.state
+        const {visible,currentCategory} = this.state
+        const categorys = this.props.categorys
         return (
             <div>
                 <Card extra={extra}>
@@ -104,3 +97,13 @@ export default class Category extends Component {
         )
     }
 }
+
+export default connect(
+    state =>({
+        categorys: state.categorys
+    }),{
+        getCategorys,
+        addCategory,
+        updateCategory
+    }
+)(Category)

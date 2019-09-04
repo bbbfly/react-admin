@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
         setForm: PropTypes.func.isRequired,
         categoryName: PropTypes.string
     }
-    componentWillMount(){
+    componentDidMount(){
         this.props.setForm(this.props.form)
     }
     render() {
