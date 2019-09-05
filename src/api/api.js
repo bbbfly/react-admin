@@ -17,7 +17,7 @@ axios.interceptors.response.use( res => {
     message.error(err.message)
     return new Promise(()=>{})
 })
-
+// 登录
 export const reqLogin = (username,password) => {
     return axios({
                 url: base + '/login',
@@ -28,13 +28,13 @@ export const reqLogin = (username,password) => {
                 }
            })
 }
-
+// 获取分类列表
 export const reqCategorys = () => (
     axios({
-        url: base + 'manage/category/list'
+        url: base + '/manage/category/list'
     })
 )
- 
+ // 新增分类
 export const reqAddCategory = (categoryName) => (
     axios({
         url:base+'/manage/category/add',
@@ -44,7 +44,7 @@ export const reqAddCategory = (categoryName) => (
         }
     })
 )
-
+// 更新分类
 export const reqUpdateCategory = ({categoryId,categoryName}) => (
     axios({
         url:base+'/manage/category/update',
@@ -56,9 +56,9 @@ export const reqUpdateCategory = ({categoryId,categoryName}) => (
     })
 )
 
-
+// 获取商品列表
 export const reqProductList = (pageNum,pageSize) => (
-    aios({
+    axios({
         url:base+'/manage/product/list',
         data:{
             pageNum,
@@ -66,3 +66,20 @@ export const reqProductList = (pageNum,pageSize) => (
         }
     })
 )
+
+// ## 11. 根据Name/desc搜索产品分页列表
+// ### 请求URL：
+//     http://localhost:5000/manage/product/search?pageNum=1&pageSize=5&productName=T
+export const reqSearchProductList = ({
+    pageNum,pageSize,keywords,searchType
+}) => {
+    return axios({
+        url:base+'/manage/product/search',
+        data:{
+            pageNum,
+            pageSize,
+            [searchType]:keywords
+        }
+    })
+}
+    

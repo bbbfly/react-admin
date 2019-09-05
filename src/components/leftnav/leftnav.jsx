@@ -6,22 +6,32 @@ import menuList from '../../utils/menulist'
 import  './leftnav.less'
 const {SubMenu} = Menu
 class Leftnav extends Component {
-    state = {
-        openKey:'',
-        menuData:[]
+    constructor(props){
+        super(props)
+        this.state = {
+            openKey:'',
+            menuData:[],
+            selectKey:'/home'
+        }
+       
     }
-    componentDidMount(){
-       const {pathname} = this.props.history.location
-       const data = this.getMenuNode(menuList,pathname)
-       this.setState({
-           menuData:data
-       })
+    UNSAFE_componentWillMount(){
+        const {pathname} = this.props.history.location
+        const data = this.getMenuNode(menuList,pathname)
+        this.setState({
+            menuData:data
+        })
+    }
+    setSelectKey = ({key}) => {
+        this.setState({
+            selectKey:key
+        })
     }
     getMenuNode = (menuList,openKey) =>{
         return menuList.map( item => {
             if(!item.children){
                 return (
-                    <Menu.Item key={item.key}>
+                    <Menu.Item key={item.key} onClick={this.setSelectKey}>
                         <Link to={item.key}>
                             <Icon type={item.icon} />
                             {item.title}
@@ -29,10 +39,11 @@ class Leftnav extends Component {
                     </Menu.Item>
                 )
             }
-            const citem = item.children.find( child => child.key === openKey )
+            const citem = item.children.find( child => openKey.indexOf(child.key) === 0 )
             if(citem) {   
                this.setState({
-                   openKey:item.key
+                   openKey:item.key,
+                   selectKey: citem.key
                })
             }
             return (
@@ -51,7 +62,8 @@ class Leftnav extends Component {
         })
     }
     render() {
-        const selectKey = this.props.history.location.pathname
+        // const selectKey = this.props.history.location.pathname
+        const {selectKey} = this.state
         return (
             <div className='left-nav'>
                 <Link className='flex-r-a top' to='/home'>

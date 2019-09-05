@@ -9,7 +9,14 @@ import {
 } from './action-types'
 import {message} from 'antd'
 
-import {reqLogin,reqCategorys,reqAddCategory,reqUpdateCategory,reqProductList} from '../api/api'
+import {reqLogin,
+        reqCategorys,
+        reqAddCategory,
+        reqUpdateCategory,
+        reqProductList,
+        reqSearchProductList} from '../api/api'
+
+// 登录
 export const login = (username,password) => {
     return async dispatch => {
         const res = await reqLogin(username,password)
@@ -22,9 +29,10 @@ export const login = (username,password) => {
     }
 }
 
+// 退出
 export const logout = () => ( dispatch => dispatch({type:LOGOUT}))
 
-
+// 分类列表
 export const getCategorys = () => {
     return async dispatch => {
         const result = await reqCategorys()
@@ -41,7 +49,7 @@ export const getCategorys = () => {
     }
 }
 
-
+//添加分类
 export const addCategory = (categoryName) => {
     return async (dispatch) => {
         const result = await reqAddCategory(categoryName)
@@ -54,6 +62,7 @@ export const addCategory = (categoryName) => {
     }
 }
 
+// 更新分类
 export const updateCategory = ({categoryId,categoryName}) => {
     return async (dispatch) => {
         const result = await reqUpdateCategory({categoryId,categoryName})
@@ -66,12 +75,28 @@ export const updateCategory = ({categoryId,categoryName}) => {
     }
 }
 
+// 商品列表
 export const getProductList = (pageNum,pageSize) => {
     return async dispatch => {
         const res = await reqProductList(pageNum,pageSize)
-        if(result.status === 0) {
-            message.success(`获取商品列表第${pageSize}页成功！`)
+        if(res.status === 0) {
+            message.success(`获取商品列表第${pageNum}页成功！`)
             dispatch({type:GET_PRODUCT_LIST,data:res.data,page:pageNum})
+        }else{
+            message.error(res.msg)
+        }
+    }
+}
+
+// 搜索商品
+
+export const searchProductList = ({pageNum,pageSize,keywords,searchType}) => {
+    return async dispatch => {
+        const res = await reqSearchProductList({pageNum,pageSize,keywords,searchType})
+        if(res.status === 0){
+            message.success(`按${searchType} 搜索成功！`)
+            const type = 'search_'+ searchType.toLowerCase()
+            dispatch({type,page:pageNum,data:res.data})
         }else{
             message.error(res.msg)
         }

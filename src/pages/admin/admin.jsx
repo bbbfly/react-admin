@@ -8,7 +8,7 @@ import Home from '../home/home'
 import Category from '../category/category'
 import Role from '../role/role'
 import User from '../user/user'
-import Product from '../product/product'
+import ProductIndex from '../product/index'
 import {logout} from '../../redux/actions'
 import './admin.less'
 const { Footer, Sider, Content} = Layout
@@ -30,16 +30,16 @@ const { Footer, Sider, Content} = Layout
                         <Header/>
                         <Content>
                             <Switch>
-                                <Route path='/home' component={Home}/>
-                                <Route path='/category' component={Category}/>
-                                <Route path='/user' component={User}/>
-                                <Route path='/product' component={Product}/>
-                                <Route path='/role' component={Role}/>
-                                <Redirect to ='/home'/>
+                                <Route  path='/home' component={Home}/>
+                                <Route  path='/category' component={Category}/>
+                                <Route  path='/user' component={User}/>
+                                <Route  path='/product' component={ProductIndex}/>
+                                <Route  path='/role' component={Role}/>
+                                {/* <Redirect to ='/home'/> */}
                             </Switch>
                         </Content>
                         <Footer>
-                            <Button type='primary' onClick={this.logout}>退出</Button>
+                            <Button type='primary' onClick={this.logout}>é€€å‡º</Button>
                         </Footer>
                     </Layout>
                 </Layout>

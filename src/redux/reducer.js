@@ -4,7 +4,9 @@ import {
     LOGOUT,
 
     GET_CATEGORY,
-    GET_PRODUCT_LIST
+    GET_PRODUCT_LIST,
+    SEARCH_PRODUCTDESC,
+    SEARCH_PRODUCTNAME
 } from './action-types'
 import {getUser,removeUser,setUser} from '../utils/localstorage'
 
@@ -43,7 +45,13 @@ function products (state = {total:0,1:{}}, action){
         case GET_PRODUCT_LIST:
             
             return {...state,total:action.total,[action.page]:action.data}
-    
+        case SEARCH_PRODUCTNAME:
+            return {
+                        total:action.total,
+                        [action.page]:action.data
+                    }
+        case SEARCH_PRODUCTDESC:
+            return {total:action.total,[action.page]:action.data}
         default:
             return state
     }

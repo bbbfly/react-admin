@@ -13,7 +13,7 @@ import './header.less'
     componentDidMount(){
         this.formatDate()
         const titles = {}
-        this.getTitle(titles,menuList)
+        this.initTitle(titles,menuList)
         this.setState({
             titles
         })
@@ -29,13 +29,24 @@ import './header.less'
             },
         })
     }
-    getTitle = (titles={},menuList) => {
+    initTitle = (titles={},menuList) => {
         menuList.forEach( item => {
             titles[item.key] = item.title
             if(item.children){
-                this.getTitle(titles,item.children)
+                this.initTitle(titles,item.children)
             }
         })
+    }
+    getTitle = (pathname) => {
+        const {titles} = this.state
+        let title = ''
+        for(var key in titles){
+            console.log(key)
+            if(pathname.indexOf(key) === 0){
+                title =  titles[key]
+            }
+        }
+        return title
     }
     formatDate(){
         this.timer = setInterval(() => {
@@ -50,8 +61,7 @@ import './header.less'
             let m = t.getMinutes()
             m = m < 10 ? '0' + m : m 
             let s = t.getSeconds()
-            s = s <10 ? '0' + s : s
-            
+            s = s <10 ? '0' + s : s            
             this.setState({
                 clock:`${Y}-${M}-${D}  ${h}:${m}:${s}`
             })
@@ -69,7 +79,7 @@ import './header.less'
                 </div>
                 <div className='bottom flex-r-b'>
                     <div className='left'>
-                        {this.state.titles[pathname]}
+                        {this.state.titles[pathname] || this.getTitle(pathname)}
                     </div>
                     <div className='right'>
                         <span>{this.state.clock}</span>
