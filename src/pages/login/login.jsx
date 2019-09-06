@@ -10,17 +10,9 @@ import './login.less'
 
     handleSubmit = e => {
         e.preventDefault();
+        // 登录表单统一验证
         this.props.form.validateFields(async (err,value) =>{
             if(!err){
-                // const result = await reqLogin(value.username,value.password)
-                // if( result.status === 0){
-                //     const user = result.data
-                //     setUser(user)
-                //     this.props.history.replace('/admin')
-                //     message.success('登录成功')
-                // }else{
-                //     message.error(result.msg)
-                // } 
                 this.props.login(value.username,value.password)      
             }
         })

@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {Modal} from 'antd'
-import menuList from '../../utils/menulist'
 import {logout} from '../../redux/actions'
 import './header.less'
  class Header extends Component {
@@ -12,11 +11,6 @@ import './header.less'
     }
     componentDidMount(){
         this.formatDate()
-        const titles = {}
-        this.initTitle(titles,menuList)
-        this.setState({
-            titles
-        })
     }
     componentWillUnmount(){
         clearInterval(this.timer)
@@ -29,25 +23,7 @@ import './header.less'
             },
         })
     }
-    initTitle = (titles={},menuList) => {
-        menuList.forEach( item => {
-            titles[item.key] = item.title
-            if(item.children){
-                this.initTitle(titles,item.children)
-            }
-        })
-    }
-    getTitle = (pathname) => {
-        const {titles} = this.state
-        let title = ''
-        for(var key in titles){
-            console.log(key)
-            if(pathname.indexOf(key) === 0){
-                title =  titles[key]
-            }
-        }
-        return title
-    }
+    
     formatDate(){
         this.timer = setInterval(() => {
             const t = new Date()
@@ -68,7 +44,7 @@ import './header.less'
         }, 1000);
     }
     render() {
-        const {pathname} = this.props.history.location
+        const {title} = this.props
         return (
             <div className='header'>
                 <div className='top'>
@@ -79,7 +55,7 @@ import './header.less'
                 </div>
                 <div className='bottom flex-r-b'>
                     <div className='left'>
-                        {this.state.titles[pathname] || this.getTitle(pathname)}
+                        {title}
                     </div>
                     <div className='right'>
                         <span>{this.state.clock}</span>
@@ -95,6 +71,7 @@ import './header.less'
 export default connect(
     
     state => ({
-        username: state.user.username
+        username: state.user.username,
+        title:state.title
     }),{logout}
 )( withRouter(Header))

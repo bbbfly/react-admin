@@ -2,11 +2,13 @@ import React, { Component } from 'react'
 import {Form,Input} from 'antd'
 import PropTypes from 'prop-types'
  class CategoryInput extends Component {
+    //  父子组件props通信
     static propTypes = {
         setForm: PropTypes.func.isRequired,
         categoryName: PropTypes.string
     }
     componentDidMount(){
+        //把form 交给父组件
         this.props.setForm(this.props.form)
     }
     render() {

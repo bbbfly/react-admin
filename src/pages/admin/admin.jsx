@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {Redirect,Switch,Route} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {Button,Layout} from 'antd'
+import {Layout} from 'antd'
 import Header from '../../components/header/header'
 import Leftnav from '../../components/leftnav/leftnav'
 import Home from '../home/home'
@@ -21,7 +21,6 @@ const { Footer, Sider, Content} = Layout
             return <Redirect to='/login'></Redirect>
         }
         return (
-            <div style={{height:'100%'}}>
                 <Layout style={{height:'100%'}}>
                     <Sider>
                         <Leftnav></Leftnav>
@@ -39,12 +38,10 @@ const { Footer, Sider, Content} = Layout
                             </Switch>
                         </Content>
                         <Footer>
-                            <Button type='primary' onClick={this.logout}>é€€å‡º</Button>
                         </Footer>
                     </Layout>
                 </Layout>
                 
-            </div>
         )
     }
 }

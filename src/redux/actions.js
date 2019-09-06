@@ -1,4 +1,5 @@
 import {
+    MENU_TITLE,
     LOGIN_SUCCESS,
     LOGOUT,
 
@@ -31,6 +32,9 @@ export const login = (username,password) => {
 
 // 退出
 export const logout = () => ( dispatch => dispatch({type:LOGOUT}))
+
+// 设置页面 标题
+export const setMenuTitle = (title) => ( dispatch => dispatch({type:MENU_TITLE,title}))
 
 // 分类列表
 export const getCategorys = () => {
@@ -81,7 +85,7 @@ export const getProductList = (pageNum,pageSize) => {
         const res = await reqProductList(pageNum,pageSize)
         if(res.status === 0) {
             message.success(`获取商品列表第${pageNum}页成功！`)
-            dispatch({type:GET_PRODUCT_LIST,data:res.data,page:pageNum})
+            dispatch({type:GET_PRODUCT_LIST,data:res.data,page:pageNum,stype:'all'})
         }else{
             message.error(res.msg)
         }
@@ -91,12 +95,13 @@ export const getProductList = (pageNum,pageSize) => {
 // 搜索商品
 
 export const searchProductList = ({pageNum,pageSize,keywords,searchType}) => {
+    console.log(pageNum,pageSize,keywords,searchType)
     return async dispatch => {
         const res = await reqSearchProductList({pageNum,pageSize,keywords,searchType})
         if(res.status === 0){
             message.success(`按${searchType} 搜索成功！`)
             const type = 'search_'+ searchType.toLowerCase()
-            dispatch({type,page:pageNum,data:res.data})
+            dispatch({type,page:pageNum,data:res.data,stype:searchType})
         }else{
             message.error(res.msg)
         }

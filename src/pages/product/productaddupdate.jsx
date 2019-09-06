@@ -1,15 +1,26 @@
 import React, { Component } from 'react'
 import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {Card,Icon,Form,Button,Input,Select} from 'antd'
+import {Card,Icon,Form,Button,Input,Select,message} from 'antd'
+import RichTextEditor from '../../components/rich-text-editor/rich-text-editor'
 import {getCategorys} from '../../redux/actions'
 import PicturesWall from '../../components/uploadimage/uploadimage'
+import {reqAddProduct} from '../../api/api'
 class ProductAddUpdate extends Component {
+    constructor(props){
+        super(props)
+        this.pwRef = React.createRef()
+        this.editorRef = React.createRef()
+    }
     componentDidMount(){
+        // 获取表单中分类列表
         if(!this.props.categorys.length){
             this.props.getCategorys()
         }
+        // 是否进行更新商品操作
+        this.isUpdate = false
     }
+    // 自定义表单中价格校验
     validatorPrice = (rule,value,callback) => {
         if(value === '') {
             callback()
@@ -19,14 +30,29 @@ class ProductAddUpdate extends Component {
             callback()
         }
     }
+    // 表单提交 与统一验证
     handleSubmit = (e) => {
         e.preventDefault()
-        this.props.form.validateFields( (err , value) => {
+        this.props.form.validateFields(async (err , value) => {
             if(!err){
                 const {name,price,desc,categoryId}  = value
-                console.log(name,price,desc,categoryId)
+                const imgs = this.pwRef.current.getFileList()
+                const detail = this.editorRef.current.getDetail()
+                console.log(name,price,desc,categoryId,imgs,detail)
+                if(this.isUpdate){
+
+                }else{
+                    const product = {name,price,desc,categoryId,imgs,detail}
+                    const res = await reqAddProduct(product)
+                    if(res.status === 0){
+                        message.success(`${name} 添加成功！`)
+                    }else{
+                        message.error( `${name}  添加失败！` )
+                    }
+                }
             }else{
                 console.log(err)
+                message.error('表单验证不通过！')
             }
         })
     }
@@ -98,12 +124,18 @@ class ProductAddUpdate extends Component {
                         }
                     </Form.Item>
 
-                    <Form.Item label='商品图片' >
-                        <PicturesWall></PicturesWall>
+                    <Form.Item label='商品图片' wrapperCol={{span:20}}>
+                        <PicturesWall ref={this.pwRef} imgs={['image-1567739612345.jpg']}></PicturesWall>
                     </Form.Item>
+
+                    <Form.Item label='商品详情' wrapperCol={{span:20}}>
+                        <RichTextEditor detail={'<h1>测试</h1>'} ref={this.editorRef}></RichTextEditor>
+                    </Form.Item>
+
                     <Form.Item>
                         <Button type='primary' htmlType='submit'>保存并提交</Button>
                     </Form.Item>
+
                 </Form>
             </Card>
         )

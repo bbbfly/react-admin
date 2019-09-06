@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
+import {connect} from 'react-redux'
 import {Link,withRouter} from 'react-router-dom'
 import {Menu,Icon} from 'antd'
 import img from '../../assets/images/logo.png'
 import menuList from '../../utils/menulist'
+import {setMenuTitle} from '../../redux/actions'
 import  './leftnav.less'
 const {SubMenu} = Menu
 class Leftnav extends Component {
@@ -22,17 +24,25 @@ class Leftnav extends Component {
             menuData:data
         })
     }
-    setSelectKey = ({key}) => {
+    setTitleKey = (key,title) => {
+        this.props.setMenuTitle(title)
         this.setState({
             selectKey:key
         })
+        
     }
     getMenuNode = (menuList,openKey) =>{
         return menuList.map( item => {
             if(!item.children){
+                if(openKey.indexOf(item.key) === 0) {
+                    this.props.setMenuTitle(item.title)
+                    this.setState({
+                        selectKey: item.key
+                    })
+                }
                 return (
-                    <Menu.Item key={item.key} onClick={this.setSelectKey}>
-                        <Link to={item.key}>
+                    <Menu.Item key={item.key}>
+                        <Link to={item.key} onClick={ () => this.setTitleKey(item.key,item.title)}>
                             <Icon type={item.icon} />
                             {item.title}
                         </Link>
@@ -40,10 +50,9 @@ class Leftnav extends Component {
                 )
             }
             const citem = item.children.find( child => openKey.indexOf(child.key) === 0 )
-            if(citem) {   
+            if(citem) {
                this.setState({
-                   openKey:item.key,
-                   selectKey: citem.key
+                   openKey:item.key
                })
             }
             return (
@@ -71,7 +80,7 @@ class Leftnav extends Component {
                     后台系统
                 </Link>
 
-                <Menu
+                <Menu 
                     theme='dark'
                     defaultOpenKeys={[this.state.openKey]}
                     selectedKeys={[selectKey]}
@@ -86,4 +95,8 @@ class Leftnav extends Component {
     }
 }
 
-export default withRouter(Leftnav)
+export default connect(
+    (state) => ({title:state.title}),{
+        setMenuTitle
+    }
+)(withRouter(Leftnav))
