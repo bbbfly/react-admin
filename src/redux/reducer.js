@@ -7,8 +7,10 @@ import {
 
     GET_CATEGORY,
     GET_PRODUCT_LIST,
+    EDITOR_PRODUCT,
     SEARCH_PRODUCTDESC,
-    SEARCH_PRODUCTNAME
+    SEARCH_PRODUCTNAME,
+    GET_ROLE_LIST
 } from './action-types'
 import {getUser,removeUser,setUser} from '../utils/localstorage'
 
@@ -49,6 +51,7 @@ function categorys (state = [] , action) {
 /* 商品列表
     products = {
         total:0,
+        current:{}, // 修改某个商品
         stype:all  productName  productDesc   所有 名称  描述
         1: {},
         2: {},
@@ -76,13 +79,26 @@ function products (state = {total:0,stype:'all'}, action){
             return formatProducts(state,action)
         case SEARCH_PRODUCTDESC:
             return formatProducts(state,action)
+        case EDITOR_PRODUCT:
+            return {...state,current:action.product}
         default:
             return state
     }
 }
+
+function roleList (state=[],action){
+    switch (action.type) {
+        case GET_ROLE_LIST:
+            return action.roleList
+        default:
+            return state
+    }
+}
+
 export default combineReducers({
     user,
     categorys,
     products,
-    title
+    title,
+    roleList
 })

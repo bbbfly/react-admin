@@ -11,3 +11,6 @@ export const UPDATE_CATEGORY = 'update_category'
 export const GET_PRODUCT_LIST = 'get_product_list'
 export const SEARCH_PRODUCTNAME = 'search_productname'
 export const SEARCH_PRODUCTDESC ='search_productdesc'
+export const EDITOR_PRODUCT = 'editor_product'
+
+export const GET_ROLE_LIST = 'get_role_list'

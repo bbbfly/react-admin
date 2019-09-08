@@ -6,7 +6,10 @@ import {
     GET_CATEGORY,
     // ADD_CATEGORY,
     // UPDATE_CATEGORY
-    GET_PRODUCT_LIST
+    GET_PRODUCT_LIST,
+    EDITOR_PRODUCT,
+
+    GET_ROLE_LIST
 } from './action-types'
 import {message} from 'antd'
 
@@ -15,7 +18,9 @@ import {reqLogin,
         reqAddCategory,
         reqUpdateCategory,
         reqProductList,
-        reqSearchProductList} from '../api/api'
+        reqSearchProductList,
+        reqRoleList
+    } from '../api/api'
 
 // 登录
 export const login = (username,password) => {
@@ -105,5 +110,21 @@ export const searchProductList = ({pageNum,pageSize,keywords,searchType}) => {
         }else{
             message.error(res.msg)
         }
+    }
+}
+
+// 编辑修改商品
+export const editorProduct = product => ( dispatch => dispatch({type:EDITOR_PRODUCT,product}))
+
+// 获取角色列表
+export const getRoleList = () => {
+    return async dispatch => {
+        const res = await reqRoleList()
+        if(res.status === 0){
+            message.success('获取角色列表成功')
+            dispatch({type:GET_ROLE_LIST,roleList:res.data})
+        }else{
+            message.error(res.msg)
+        }    
     }
 }

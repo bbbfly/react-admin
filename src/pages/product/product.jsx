@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {Table,Icon,Select,Input,Button,Card,message} from 'antd'
 import {connect} from 'react-redux'
-import {getProductList,searchProductList} from '../../redux/actions'
+import {getProductList,searchProductList,editorProduct} from '../../redux/actions'
 import {updateProductStatus} from '../../api/api'
 class Product extends Component {
     constructor(){
@@ -10,13 +10,14 @@ class Product extends Component {
             pageSize:1,
             searchType:'all', // 绑定下拉选项 productName productDesc
             keywords:'',
-            page:1
+            page:1,
         }
         this.stype = 'all' // 记录当前搜索类别  productName productDesc
         this.initColumns()
     }
     componentDidMount(){
-        this.getProducts(1,this.state.pageSize)
+        // this.getProducts(1,this.state.pageSize)
+        this.props.getProductList(1,this.state.pageSize)
     }
     // 初始化表头
     initColumns = () => {
@@ -49,18 +50,18 @@ class Product extends Component {
                 title:'商品状态',
                 width:100,
                 // dataIndex:'status',
-                render: ({status,_id}) => {
+                render: ({_id,status}) => {
                     if(status === 1){
                         return (
                             <span>
-                                <Button type='primary' onClick={this.updateStatus}>下架</Button>
+                                <Button type='dashed' onClick={()=> this.updateStatus(_id,status)}>下架</Button>
                                 在售
                             </span>
                         )
                     }
                     return (
                         <span>
-                            <Button type='primary'>上架</Button>
+                            <Button type='primary' onClick={() => this.updateStatus(_id,status) }>上架</Button>
                             已下架
                         </span>
                     )
@@ -72,7 +73,7 @@ class Product extends Component {
                 render: product => (
                     <span>
                         <Button>详情</Button>
-                        <Button>修改</Button>
+                        <Button onClick={ () =>{ this.props.editorProduct(product);this.props.history.push('/product/addupdate')}  }>修改</Button>
                     </span>
                 )
             }
@@ -105,20 +106,30 @@ class Product extends Component {
         return this.props.searchProductList({pageNum:1,pageSize,keywords,searchType})
     }
 
-    updateStatus = async ({status,_id}) => {
-        console.log(status,_id);
-        
-        let text = ''
+    updateStatus = async (_id,status) => {
+        let text ='', errorText = ''
         if(status === 1){
             status = 2
             text = '商品下架成功！'
+            errorText = '商品下架失败！！！'
         }else{
             status = 1
             text = '商品上架成功！'
+            errorText = '商品上架失败！！！'
         }
-        const res =  await updateProductStatus(_id,status)
+        let res = await updateProductStatus(_id,status)
         if(res.status === 0 ) {
             message.success(text)
+            const {page,keywords,pageSize} = this.state
+            // 更新状态成功 刷新当前页面
+            if(this.stype === 'all') {
+                 await this.props.getProductList (page,pageSize)
+                
+            }else{
+                 await this.props.searchProductList ({pageNum:page,pageSize,keywords,searchType:this.stype})
+            }
+        }else{
+            message.error(errorText)
         }
     }
     render() {
@@ -136,7 +147,7 @@ class Product extends Component {
             </span>
         )
         const extra = (
-            <Button type='primary' onClick={()=> this.props.history.push('/product/addupdate')}>
+            <Button type='primary' onClick={()=>{this.props.editorProduct({});this.props.history.push('/product/addupdate')} }>
                 <Icon type='plus'></Icon>
                 添加
             </Button>
@@ -161,6 +172,7 @@ export default connect(
         products:state.products
     }),{
         getProductList,
-        searchProductList
+        searchProductList,
+        editorProduct
     }
 )(Product)

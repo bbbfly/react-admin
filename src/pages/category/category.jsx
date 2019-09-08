@@ -72,7 +72,7 @@ import {getCategorys,addCategory,updateCategory} from '../../redux/actions'
     }
     render() {
         const extra = (
-            <Button type='primary' onClick={()=>{this.setState({visible:1})}}>
+            <Button type='primary' onClick={()=>{this.setState({visible:1,currentCategory:{}})}}>
                 <Icon type="plus" />
                 添加
             </Button>

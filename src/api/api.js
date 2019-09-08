@@ -101,7 +101,6 @@ export const reqSearchProductList = ({
 //     |status       |Y       |number   |商品状态值
 
 export const updateProductStatus = (productId,status) => {
-    debugger
     return axios({
         url:base+'/manage/product/updateStatus',
         method:'POST',
@@ -164,5 +163,65 @@ export const reqUpdateProduct = (product) => (
         url:base + '/manage/product/update',
         method:'POST',
         data:product
+    })
+)
+
+
+// ##  获取用户列表
+// ### 请求URL：
+//     http://localhost:5000/manage/user/list
+
+// ### 请求方式：
+//     GET
+export const reqUserList = () => (
+    axios.get(base+'/manage/user/list')
+)
+
+// ## 19. 获取角色列表
+// ### 请求URL：
+//     http://localhost:5000/manage/role/list
+
+export const reqRoleList = () => axios.get(base+'/manage/role/list')
+
+// ## 18. 添加角色
+
+// ### 请求URL：
+//     http://localhost:5000/manage/role/add
+
+// ### 请求方式：
+//     POST
+
+// ### 参数类型:
+//     |参数		     |是否必选 |类型     |说明
+//     |roleName    |Y       |string   |角色名称
+
+export const reqAddRole = (roleName) => (
+    axios({
+        url:base+'/manage/role/add',
+        method:'POST',
+        data:{roleName}
+    })
+)
+
+// ## 20. 更新角色(给角色设置权限)
+// ### 请求URL：
+//     http://localhost:5000/manage/role/update
+
+// ### 请求方式：
+//     POST
+
+// ### 参数类型:
+  
+//     |参数		     |是否必选  |类型     |说明
+//     |_id          |Y       |string   |角色ID
+//     |menus        |Y       |array    |权限key数组
+//     |auth_time    |Y       |number   |权限时间
+//     |auth_name    |Y       |string   |权限人姓名
+
+export  const reqUpdateRole = (role) => (
+    axios({
+        url:base+'/manage/role/update',
+        method:'POST',
+        data:role
     })
 )
