@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {Table,Icon,Select,Input,Button,Card,message} from 'antd'
 import {connect} from 'react-redux'
-import {getProductList,searchProductList,editorProduct} from '../../redux/actions'
+import {getProductList,searchProductList,editorProduct,getCategorys} from '../../redux/actions'
 import {updateProductStatus} from '../../api/api'
 class Product extends Component {
     constructor(){
@@ -11,42 +11,69 @@ class Product extends Component {
             searchType:'all', // 绑定下拉选项 productName productDesc
             keywords:'',
             page:1,
+            categoryObj:{}
         }
         this.stype = 'all' // 记录当前搜索类别  productName productDesc
-        this.initColumns()
     }
     componentDidMount(){
         // this.getProducts(1,this.state.pageSize)
         this.props.getProductList(1,this.state.pageSize)
+        if(!this.props.categorys.length){
+            this.props.getCategorys()
+        }else{
+            this.initCategoryObj(this.props.categorys)
+        }
+    }
+    componentWillReceiveProps(nextProps){
+        const {categorys} = nextProps
+        this.initCategoryObj(categorys)
+    }
+    initCategoryObj = (categorys) => {
+        const categoryObj = {}
+        categorys.forEach( category => {
+            categoryObj[category._id] = category.name
+        })
+        this.setState({
+            categoryObj
+        },()=>{
+            this.initColumns()
+        })
     }
     // 初始化表头
     initColumns = () => {
-        this.columns = [
+        const {categoryObj} = this.state
+        const columns = [
             {
-                key:'_id',
-                title:'商品ID',
-                dataIndex:'_id',
-                // render: (id) => (
-                //     <div style={{width:100, wordWrap: 'break-word',whiteSpace: 'pre-wrap' }}>{id}</div>
-                // )
-            },{
                 key:'name',
+                align:'center',
                 title:'商品名称',
                 width:150,
                 dataIndex:'name',
             },{
                 key:'desc',
+                align:'center',
                 title:'商品描述',
                 dataIndex:'desc',
                 width:200,
-            },{
+            },
+            {
+                key:'categoryId',
+                align:'center',
+                title:'所属分类',
+                dataIndex:'categoryId',
+                width:100,
+                render: _id =>{ console.log(categoryObj); return categoryObj[_id]}
+            }
+            ,{
                 key:'price',
+                align:'center',
                 title:'商品价格',
                 width:100,
                 dataIndex:'price',
                 render: price => ('￥'+ price)
             },{
                 key:'status',
+                align:'center',
                 title:'商品状态',
                 width:100,
                 // dataIndex:'status',
@@ -68,6 +95,7 @@ class Product extends Component {
                 }
             },{
                 key:'action',
+                align:'center',
                 title:'操作',
                 width:100,
                 render: product => (
@@ -79,6 +107,9 @@ class Product extends Component {
             }
 
         ]
+        this.setState({
+            columns
+        })
     }
     getProducts = (page,pageSize) =>{
         this.setState({
@@ -105,7 +136,6 @@ class Product extends Component {
         }
         return this.props.searchProductList({pageNum:1,pageSize,keywords,searchType})
     }
-
     updateStatus = async (_id,status) => {
         let text ='', errorText = ''
         if(status === 1){
@@ -134,7 +164,7 @@ class Product extends Component {
     }
     render() {
         const {total,products} = this.props
-        const {searchType,keywords,pageSize,page} = this.state
+        const {searchType,keywords,pageSize,page,columns} = this.state
         const title = (
             <span>
                 <Select value={searchType} onChange={(value)=> this.setState({searchType:value})}>
@@ -156,7 +186,7 @@ class Product extends Component {
             <Card title={title} extra={extra}>
                 <Table loading={false} 
                        bordered={true} 
-                       columns={this.columns} 
+                       columns={columns} 
                        dataSource={ products[page] && products[page].list} 
                        scroll={{y:400}}
                        pagination={{total,pageSize,showQuickJumper:true,onChange:this.getProducts,current:page}}></Table>
@@ -169,9 +199,11 @@ export default connect(
     state => ({
         stype: state.products.stype,
         total: state.products.total,
-        products:state.products
+        products:state.products,
+        categorys: state.categorys
     }),{
         getProductList,
+        getCategorys,
         searchProductList,
         editorProduct
     }

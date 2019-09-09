@@ -19,7 +19,7 @@ import './login.less'
     }
     render() {
         if(this.props._id){
-            return <Redirect to='/'></Redirect>
+            return <Redirect to='/home'></Redirect>
         }
         const { getFieldDecorator } = this.props.form;
         return (

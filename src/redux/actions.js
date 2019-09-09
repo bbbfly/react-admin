@@ -9,6 +9,7 @@ import {
     GET_PRODUCT_LIST,
     EDITOR_PRODUCT,
 
+    GET_USER_LIST,
     GET_ROLE_LIST
 } from './action-types'
 import {message} from 'antd'
@@ -19,7 +20,8 @@ import {reqLogin,
         reqUpdateCategory,
         reqProductList,
         reqSearchProductList,
-        reqRoleList
+        reqRoleList,
+        reqUserList
     } from '../api/api'
 
 // 登录
@@ -126,5 +128,18 @@ export const getRoleList = () => {
         }else{
             message.error(res.msg)
         }    
+    }
+}
+
+// 获取用户列表
+export const getUserList = () => {
+    return async dispatch => {
+        const res = await reqUserList()
+        if(res.status === 0){
+            message.success('获取用户列表成功！')
+            dispatch({type:GET_USER_LIST,userList:res.data})
+        }else{
+            message.error(res.msg)
+        }
     }
 }

@@ -10,7 +10,8 @@ import {
     EDITOR_PRODUCT,
     SEARCH_PRODUCTDESC,
     SEARCH_PRODUCTNAME,
-    GET_ROLE_LIST
+    GET_ROLE_LIST,
+    GET_USER_LIST
 } from './action-types'
 import {getUser,removeUser,setUser} from '../utils/localstorage'
 
@@ -95,10 +96,19 @@ function roleList (state=[],action){
     }
 }
 
+function userList (state = {users:[],roles:[]},action) {
+    switch (action.type) {
+        case GET_USER_LIST:
+            return action.userList
+        default:
+            return state
+    }
+}
 export default combineReducers({
     user,
     categorys,
     products,
     title,
-    roleList
+    roleList,
+    userList
 })

@@ -8,7 +8,11 @@ import Home from '../home/home'
 import Category from '../category/category'
 import Role from '../role/role'
 import User from '../user/user'
+import BarCharts from '../charts/bar'
+import PieCharts from '../charts/pie'
+import LineCharts from '../charts/line'
 import ProductIndex from '../product/index'
+import NotFound from '../404/404'
 import {logout} from '../../redux/actions'
 import './admin.less'
 const { Footer, Sider, Content} = Layout
@@ -29,12 +33,16 @@ const { Footer, Sider, Content} = Layout
                         <Header/>
                         <Content>
                             <Switch>
+                                <Redirect exact from='/' to='/home'/>
                                 <Route  path='/home' component={Home}/>
                                 <Route  path='/category' component={Category}/>
                                 <Route  path='/user' component={User}/>
                                 <Route  path='/product' component={ProductIndex}/>
                                 <Route  path='/role' component={Role}/>
-                                {/* <Redirect to ='/home'/> */}
+                                <Route path='/charts/bar' component={BarCharts} />
+                                <Route path='/charts/pie' component={PieCharts} />
+                                <Route path='/charts/line' component={LineCharts} />
+                                <Route  component={NotFound} />
                             </Switch>
                         </Content>
                         <Footer>

@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import {Card,Button,Icon,Table,Modal} from 'antd'
+import {Card,Button,Icon,Table,Modal,message} from 'antd'
 import CategoryInput from '../../components/categoryinput/categoryinput'
 import {connect} from 'react-redux'
+import {reqDeleteCategory} from '../../api/api'
 import {getCategorys,addCategory,updateCategory} from '../../redux/actions'
 
  class Category extends Component {
@@ -22,20 +23,26 @@ import {getCategorys,addCategory,updateCategory} from '../../redux/actions'
         this.columns = [
             {
                 title: '分类名称',
+                align:'center',
                 dataIndex: 'name',
                 key: 'name',
                 width:300
               },
               {
                 title: '操作',
+                align:'center',
                 width:300,
                 render: (category) =>{
-                    return (<Button onClick={()=>{
-                        this.setState({
-                            currentCategory:category,
-                            visible:2
-                        })
-                    }}>编辑</Button>
+                    return (
+                        <span>
+                            <Button type='primary' onClick={()=>{
+                                this.setState({
+                                    currentCategory:category,
+                                    visible:2
+                                })
+                            }}>编辑</Button>
+                            <Button type='danger' style={{marginLeft:10}} onClick={()=> this.deleteCategory(category)}>删除</Button>
+                        </span>
                 )}
               },
         ]
@@ -67,6 +74,24 @@ import {getCategorys,addCategory,updateCategory} from '../../redux/actions'
                 // }else{
                 //     message.error(res.msg)
                 // }
+            }
+        })
+    }
+    deleteCategory = (category) => {
+        Modal.confirm({
+            title:'删除提示！',
+            content: `正在删除分类 ${category.name}!!!`,
+            okText:'删除',
+            okType:'danger',
+            cancelText: '取消',
+            onOk : async () => {
+                const res = await reqDeleteCategory(category._id)
+                if(res.status === 0){
+                    message.success(`删除分类 ${category.name} 成功`)
+                    this.props.getCategorys()
+                }else{
+                    message.error(res.msg)
+                }
             }
         })
     }

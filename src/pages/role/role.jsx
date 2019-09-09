@@ -94,12 +94,14 @@ const {TreeNode} = Tree
         const columns = [
             {
                 title:'角色名称',
+                align:'center',
                 dataIndex:'name',
                 key:'name',
-                width:200
+                width:200,
             },
             {
                 title:'创建时间',
+                align:'center',
                 dataIndex:'create_time',
                 key:'create_time',
                 width:200,
@@ -107,6 +109,7 @@ const {TreeNode} = Tree
             },
             {
                 title:'授权时间',
+                align:'center',
                 dataIndex:'auth_time',
                 key:'auth_time',
                 width:200,
@@ -114,12 +117,14 @@ const {TreeNode} = Tree
             },
             {
                 title:'授权人',
+                align:'center',
                 dataIndex:'auth_name',
                 key:'auth_name',
                 width:200
             },
             {
                 title:'操作',
+                align:'center',
                 width:300,
                 render: (role)=> (
                     <span>

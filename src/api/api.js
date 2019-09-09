@@ -56,6 +56,15 @@ export const reqUpdateCategory = ({categoryId,categoryName}) => (
     })
 )
 
+//删除分类 (后端需添加)
+export const reqDeleteCategory = (categoryId) => (
+    axios({
+        url:base+'/manage/category/delete',
+        method:'POST',
+        data:{categoryId}
+    })
+)
+
 // 获取商品列表
 export const reqProductList = (pageNum,pageSize) => {
     return axios.get(base+'/manage/product/list',
@@ -165,7 +174,28 @@ export const reqUpdateProduct = (product) => (
         data:product
     })
 )
+// ## 2. 添加用户
 
+// ### 请求URL：
+// 	http://localhost:5000/manage/user/add
+
+// ### 请求方式：
+// 	POST
+
+// ### 参数类型
+// 	|参数		|是否必选 |类型     |说明
+// 	|username    |Y       |string   |用户名
+// 	|password    |Y       |string   |密码
+// 	|phone       |N       |string   |手机号
+// 	|email       |N       |string   |邮箱
+// 	|role_id     |N       |string   |角色ID
+export  const reqAddUser = (user) => (
+    axios({
+        url:base+'/manage/user/add',
+        method:'POST',
+        data:user
+    })
+)
 
 // ##  获取用户列表
 // ### 请求URL：
@@ -173,10 +203,49 @@ export const reqUpdateProduct = (product) => (
 
 // ### 请求方式：
 //     GET
-export const reqUserList = () => (
-    axios.get(base+'/manage/user/list')
+export const reqUserList = () => axios.get(base+'/manage/user/list')
+// ## 3. 更新用户
+// ### 请求URL：
+// 	http://localhost:5000/manage/user/update
+
+// ### 请求方式：
+// 	POST
+
+// ### 参数类型
+
+// 	|参数		|是否必选 |类型     |说明
+// 	|_id         |Y       |string   |ID
+//     |username    |N       |string   |用户名
+//     |phone       |N       |string   |手机号
+//     |email       |N       |string   |邮箱
+//     |role_id     |N       |string   |角色ID
+
+export const reqUpdateUser = (user) => (
+    axios({
+        url:base+'/manage/user/update',
+        method:'POST',
+        data: user
+    })
 )
 
+// ## 5. 删除用户
+// ### 请求URL：
+// 	http://localhost:5000/manage/user/delete
+
+// ### 请求方式：
+// 	POST
+
+// ### 参数类型:
+
+// 	|参数		|是否必选 |类型     |说明
+// 	|userId     |Y       |string   |用户ID
+export  const reqDeleteUser = (userId) => (
+    axios({
+        url:base + '/manage/user/delete',
+        method:'POST',
+        data:{userId}
+    })
+)
 // ## 19. 获取角色列表
 // ### 请求URL：
 //     http://localhost:5000/manage/role/list

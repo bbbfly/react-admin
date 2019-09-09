@@ -31,6 +31,28 @@ const menuList = [
         key : '/role',
         icon: 'file'
     },
+    {
+        title:'图表展示',
+        key:'/charts',
+        icon: 'file',
+        children:[
+            {
+                title:'柱状图',
+                key:'/charts/bar',
+                icon:'file'
+            },
+            {
+                title:'饼图',
+                key:'/charts/pie',
+                icon:'file'
+            },
+            {
+                title:'折线图',
+                key:'/charts/line',
+                icon:'file'
+            },
+        ]
+    }
 ]
 
 export default menuList

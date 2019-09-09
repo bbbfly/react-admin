@@ -13,4 +13,5 @@ export const SEARCH_PRODUCTNAME = 'search_productname'
 export const SEARCH_PRODUCTDESC ='search_productdesc'
 export const EDITOR_PRODUCT = 'editor_product'
 
+export const GET_USER_LIST = 'get_user_list'
 export const GET_ROLE_LIST = 'get_role_list'
