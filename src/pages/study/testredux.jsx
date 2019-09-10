@@ -4,14 +4,20 @@ import {connect} from '../学习/react-redux'
 import {addCount} from './react-redux.js'
 
  class TestRedux extends Component {
+    updateCount = (step) => {
+        this.props.addCount(step)
+    }
     render() {
-        const {count,addCount} = this.props
+        const {count,log} = this.props
         return (
             <div style={{background:'#ccc',padding:20}}>
                 <p>测试使用自己实现的 react-redux</p> 
                 <p>{count}</p>
-                <Button type='primary' onClick={()=>{return addCount(2)} }><Icon type='plus'></Icon></Button>               
-                <Button type='primary' onClick={()=>{return addCount(-2)} }><Icon type='minus'></Icon></Button>               
+                <Button type='primary' onClick={()=> this.updateCount(2)}><Icon type='plus'></Icon></Button>               
+                <Button type='primary' onClick={()=> this.updateCount(-2) }><Icon type='minus'></Icon></Button> 
+                <div>
+                    { log.map( item => <p key={item.date}>{item.date}---------{item.action}</p>)}
+                </div>              
             </div>
         )
     }
@@ -23,7 +29,8 @@ import {addCount} from './react-redux.js'
 // }
 export default connect(
     state=>({
-        count: state.count
+        count: state.count,
+        log: state.log
     }),
     {addCount}
 )(TestRedux)
