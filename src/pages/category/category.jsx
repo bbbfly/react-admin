@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import {Card,Button,Icon,Table,Modal,message} from 'antd'
 import CategoryInput from '../../components/categoryinput/categoryinput'
 import {connect} from 'react-redux'
-import {reqDeleteCategory} from '../../api/api'
+import {reqDeleteCategory,reqAddCategory,reqUpdateCategory,reqCategorys} from '../../api/api'
 import {getCategorys,addCategory,updateCategory} from '../../redux/actions'
 
  class Category extends Component {
@@ -107,7 +107,7 @@ import {getCategorys,addCategory,updateCategory} from '../../redux/actions'
         return (
             <div>
                 <Card extra={extra}>
-                    <Table bordered={true} scroll={{ y: 400 }} dataSource={categorys} columns={this.columns} />
+                    <Table bordered={true} rowKey='_id' scroll={{ y: 400 }} dataSource={categorys} columns={this.columns} />
                 </Card>
                 <Modal
                     title={visible=== 1 ? '新增分类' : visible=== 2 ?'修改分类':null}
@@ -122,13 +122,52 @@ import {getCategorys,addCategory,updateCategory} from '../../redux/actions'
         )
     }
 }
-
-export default connect(
-    state =>({
+const mapStateToProps = (state) => {
+    return {
         categorys: state.categorys
-    }),{
+    }
+}
+const mapDispatchToProps = (dispatch) => {
+    const getCategorys = async ()=> {
+        const res = await reqCategorys()
+        if(res.status ===0 ){
+            message.success('获取分类列表成功！！！')
+            dispatch({type:'get_category',categorys:res.data})
+        }else{
+            message.error(res.msg)
+        }
+    }
+    const addCategory = async (categoryName) => {
+        const res = await reqAddCategory(categoryName)
+        if(res.status === 0) {
+            message.success(`${categoryName} 分类添加成功`)
+            getCategorys()
+        }else{
+            message.error(res.msg)
+        }
+    }
+    const updateCategory = async ({categoryId,categoryName}) => {
+        const res = reqUpdateCategory({categoryId,categoryName})
+        if(res.status === 0){
+            message.success(`${categoryName}分类更新成功`)
+            getCategorys()
+        }else{
+            message.error(res.msg)
+        }
+    }
+    return {
         getCategorys,
         addCategory,
-        updateCategory
+        updateCategory,
     }
-)(Category)
+}
+// export default connect(
+//     state =>({
+//         categorys: state.categorys
+//     }),{
+//         getCategorys,
+//         addCategory,
+//         updateCategory
+//     }
+// )(Category)
+export default connect(mapStateToProps,mapDispatchToProps)(Category)

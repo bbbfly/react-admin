@@ -13,6 +13,8 @@ import PieCharts from '../charts/pie'
 import LineCharts from '../charts/line'
 import ProductIndex from '../product/index'
 import NotFound from '../404/404'
+import Context from '../study/context'
+import ReactRedux from '../study/react-redux'
 import {logout} from '../../redux/actions'
 import './admin.less'
 const { Footer, Sider, Content} = Layout
@@ -42,6 +44,8 @@ const { Footer, Sider, Content} = Layout
                                 <Route path='/charts/bar' component={BarCharts} />
                                 <Route path='/charts/pie' component={PieCharts} />
                                 <Route path='/charts/line' component={LineCharts} />
+                                <Route path='/study/context' component={Context}/>
+                                <Route path='/study/redux' component={ReactRedux}/>
                                 <Route  component={NotFound} />
                             </Switch>
                         </Content>
@@ -53,9 +57,19 @@ const { Footer, Sider, Content} = Layout
         )
     }
 }
-
-export default connect(
-    state => ({
-        _id: state.user._id
-    }),{logout}
-)(Admin)
+const mapStateToProps = (state) => {
+    return {
+        _id:state.user._id
+    }
+}
+const mapDispatchToProps = () => {
+    return {
+        logout
+    }
+}
+// export default connect(
+//     state => ({
+//         _id: state.user._id
+//     }),{logout}
+// )(Admin)
+export default connect(mapStateToProps,mapDispatchToProps)(Admin)

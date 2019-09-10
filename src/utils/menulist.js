@@ -52,6 +52,23 @@ const menuList = [
                 icon:'file'
             },
         ]
+    },
+    {
+        title:'学习react-redux',
+        key:'/study',
+        icon:'tool',
+        children:[
+            {
+                title:'context',
+                key:'/study/context',
+                icon:'file'
+            },
+            {
+                title:'react-redux',
+                key:'/study/redux',
+                icon:'file'
+            }
+        ]
     }
 ]
 
