@@ -1,4 +1,4 @@
-// 实现 provider connect 
+// 实现 provider connect combineReducers createStore
 
 import PropTypes from 'prop-types'
 import React,{Component} from 'react'

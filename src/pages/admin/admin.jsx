@@ -14,7 +14,7 @@ import LineCharts from '../charts/line'
 import ProductIndex from '../product/index'
 import NotFound from '../404/404'
 import Context from '../study/context'
-import ReactRedux from '../study/react-redux'
+import ReactRedux from '../study/react-redux.jsx'
 import {logout} from '../../redux/actions'
 import './admin.less'
 const { Footer, Sider, Content} = Layout

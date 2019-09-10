@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import {Button} from 'antd'
 export default class ComponentA extends Component {
     constructor(props){
         super(props)
@@ -26,8 +27,14 @@ export default class ComponentA extends Component {
     render() {
         const {colorToB,colorToC} = this.state
         return (
-            <div style={{background:'green',padding:20,color:'white'}}>
+            <div style={{background:'#333',padding:20,color:'white'}}>
                 <p>父组件向子组件传递 context {`{colorToB:${colorToB},colorToC:${colorToC}}`}</p>
+                <div style={{marginBottom:20}}>
+                    <Button type='primary' onClick={()=> this.setState({colorToB:'green'})}>colorToB: green</Button>
+                    <Button type='danger' onClick={()=> this.setState({colorToB:'red'})}>colorToB: red</Button>
+                    <Button type='primary' onClick={()=> this.setState({colorToC:'green'})}>colorToC: green</Button>
+                    <Button type='danger' onClick={()=> this.setState({colorToC:'red'})}>colorToC: red</Button>
+                </div>
                 <ComponentB></ComponentB>
             </div>
         )
