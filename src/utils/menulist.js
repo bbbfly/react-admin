@@ -67,6 +67,11 @@ const menuList = [
                 title:'react-redux',
                 key:'/study/redux',
                 icon:'file'
+            },
+            {
+                title:'bubble-sort',
+                key:'/study/bubble',
+                icon:'file'
             }
         ]
     }

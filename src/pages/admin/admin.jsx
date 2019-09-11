@@ -14,6 +14,7 @@ import LineCharts from '../charts/line'
 import ProductIndex from '../product/index'
 import NotFound from '../404/404'
 import Context from '../study/context'
+import BubbleSort from '../study/bubblesort'
 import ReactRedux from '../study/react-redux.jsx'
 import {logout} from '../../redux/actions'
 import './admin.less'
@@ -46,11 +47,12 @@ const { Footer, Sider, Content} = Layout
                                 <Route path='/charts/line' component={LineCharts} />
                                 <Route path='/study/context' component={Context}/>
                                 <Route path='/study/redux' component={ReactRedux}/>
+                                <Route path='/study/bubble' component={BubbleSort}/>
                                 <Route  component={NotFound} />
                             </Switch>
                         </Content>
-                        <Footer>
-                        </Footer>
+                        {/* <Footer>
+                        </Footer> */}
                     </Layout>
                 </Layout>
                 
