@@ -1,22 +1,23 @@
 import React, { Component } from 'react'
-import {Button} from 'antd'
+import {Button,InputNumber} from 'antd'
 export default class BubbleSort extends Component {
     constructor(props){
         super(props)
         this.state={
-            arr:[2,0,4,8,3,6,9,7,1,5],
+            arr:[2,4,8,0,9,7,1,5],
             result:[],
+            resultDom:[],
             dom:[],
             isSort:false,
         }
     }
-    componentDidMount(){
+    UNSAFE_componentWillMount(){
         this.sort()
     }
     // 冒泡排序
     sort = () => {
         let arr = [...this.state.arr]
-        // 结果保存每次的排序过程  当前index  比较index  排序结果 对比交换情况
+        // 保存每次的排序  当前index  比较index  排序结果 对比交换情况
         let result = [{current:-1,sort:-1, data:[...arr],exchange:''}]
 
         for(let i = 0 , l = arr.length ; i< l-1; i ++){
@@ -24,17 +25,16 @@ export default class BubbleSort extends Component {
                 let temp = arr[i]
                 let exchange = ''
                 if(arr[i] > arr[j]){
-                    exchange = `${arr[i]} --- ${arr[j]}`
+                    exchange = `${arr[i]} ---> ${arr[j]}`
                     arr[i] = arr[j]
                     arr[j] = temp
                 }
                 result.push({current:i,sort:j,data:[...arr],exchange}) 
             }
         }
-        this.setState({result,isSort:false})
-
+        
         let dom = this.initDom(result)
-
+        this.setState({result,isSort:false,resultDom:dom})
         this.getDom(dom,0)
     }
     // 按步骤获取排序结果 dom 结构
@@ -47,7 +47,7 @@ export default class BubbleSort extends Component {
             this.getDom(dom,++i)
         }, 500);
     }
-    // 初始化排序过程的 所有 dom 结构
+    // 初始化排序的 所有 dom 结构
     initDom(result){
         return result.map( (item,i) => {
                     return (
@@ -55,7 +55,7 @@ export default class BubbleSort extends Component {
                             <span style={{width:60,padding:'3px 10px',display:'inline-block'}}>{i === 0 ? '次数' : i}</span>
                             { 
                                item.data.map((num,j) => (
-                                   <div>
+                                   <div key={j} style={{textAlign:'center'}}>
                                        <div style={{
                                                       border:'1px solid #ccc',
                                                       margin:'0 10px',
@@ -64,9 +64,9 @@ export default class BubbleSort extends Component {
                                                       height: num*10,
                                                       background:j===item.current?'green':j===item.sort?'red':'' ,
                                                    }} 
-                                             key={j}
+                                             
                                        ></div>
-                                       <span>{num}</span>
+                                       <div>{num}</div>
                                    </div>
                                ))
                             }
@@ -75,19 +75,33 @@ export default class BubbleSort extends Component {
                     )
         })
     }
+    // 显示第n次排序
+    sortStep = (index)=>{
+        const {resultDom} = this.state
+        this.setState({
+            dom:[resultDom[0],resultDom[index]]
+        })
+    }
     render() {
         const {arr,result,dom,isSort} = this.state
         return (
             <div>
-                <p>
+                <div>
                     <span>冒泡排序</span>
                     <Button type='primary'
                             style={{marginLeft:400,}}
                             onClick={()=> this.sort()}
                             disabled={!isSort}
                     >重新排序</Button>
-                </p>
-                <p>升序排列结果 [{arr.join(',')}] 长度{arr.length} 次数{result.length-1}</p>
+                    <span style={{marginLeft:100}}>
+                        <span>显示第</span>
+                        
+                        <InputNumber min={1} max={result.length-1} disabled={!isSort} defaultValue={0} onChange={this.sortStep}></InputNumber>
+                        
+                        <span>次排序结果</span>
+                    </span>
+                </div>
+                <p>升序排列 [{arr.join(',')}] 长度{arr.length} 次数{result.length-1}</p>
                 <div style={{background:'#eee'}}>
                     { dom }
                 </div>
