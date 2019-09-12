@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import {Button,Icon} from 'antd'
 import {connect} from '../学习/react-redux'
 import {addCount} from './store.js'
-
+import {CSSTransitionGroup} from 'react-transition-group'
+import './css.less'
  class TestRedux extends Component {
     updateCount = (step) => {
         this.props.addCount(step)
@@ -14,14 +15,22 @@ import {addCount} from './store.js'
     render() {
         const {count,log} = this.props
         return (
-            <div style={{background:'#ccc',padding:20}}>
+            <div style={{background:'#ccc',padding:20}} className='test-redux'>
                 <p>测试使用自己实现的 react-redux</p> 
                 <p>count:  {count}</p>
                 <Button type='primary' onClick={()=> this.updateCount(2)}><Icon type='plus'></Icon></Button>               
                 <Button type='primary' onClick={()=> this.updateCount(-2) }><Icon type='minus'></Icon></Button> 
                 <div>
                     <p>日志打印</p>
-                    { log.map( item => <p key={item.date}>{ this.formatDate(item.date)}---------{item.log}</p>)}
+                    <CSSTransitionGroup 
+                        transitionName="example"
+                        transitionEnterTimeout={500}
+                        transitionLeaveTimeout={300}
+                    >
+                        { log.map( item =>(
+                            <p className='log-item' key={item.date}>{ this.formatDate(item.date)}---------{item.log}</p>
+                        ))}
+                    </CSSTransitionGroup>
                 </div>              
             </div>
         )

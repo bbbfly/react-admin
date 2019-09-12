@@ -72,6 +72,17 @@ const menuList = [
                 title:'bubble-sort',
                 key:'/study/bubble',
                 icon:'file'
+            },
+            {
+                title:'quick-sort',
+                key:'/study/quick',
+                icon:'file'
+            },
+
+            {
+                title:'insert-sort',
+                key:'/study/insert',
+                icon:'file'
             }
         ]
     }

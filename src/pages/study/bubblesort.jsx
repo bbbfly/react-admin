@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import {Button,InputNumber} from 'antd'
+import {CSSTransitionGroup} from 'react-transition-group'
+import './css.less'
 export default class BubbleSort extends Component {
     constructor(props){
         super(props)
@@ -64,7 +66,6 @@ export default class BubbleSort extends Component {
                                                       height: num*10,
                                                       background:j===item.current?'green':j===item.sort?'red':'' ,
                                                    }} 
-                                             
                                        ></div>
                                        <div>{num}</div>
                                    </div>
@@ -85,7 +86,7 @@ export default class BubbleSort extends Component {
     render() {
         const {arr,result,dom,isSort} = this.state
         return (
-            <div>
+            <div className='bubble-sort'>
                 <div>
                     <span>冒泡排序</span>
                     <Button type='primary'

@@ -15,7 +15,9 @@ import ProductIndex from '../product/index'
 import NotFound from '../404/404'
 import Context from '../study/context'
 import BubbleSort from '../study/bubblesort'
+import QuickSort from '../study/quickSort'
 import ReactRedux from '../study/react-redux.jsx'
+import InsertSort from '../study/insertsort'
 import {logout} from '../../redux/actions'
 import './admin.less'
 const { Footer, Sider, Content} = Layout
@@ -48,6 +50,8 @@ const { Footer, Sider, Content} = Layout
                                 <Route path='/study/context' component={Context}/>
                                 <Route path='/study/redux' component={ReactRedux}/>
                                 <Route path='/study/bubble' component={BubbleSort}/>
+                                <Route path='/study/quick' component={QuickSort}/>
+                                <Route path='/study/insert' component={InsertSort}/>
                                 <Route  component={NotFound} />
                             </Switch>
                         </Content>
