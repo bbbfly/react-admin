@@ -16,20 +16,22 @@ export default class BubbleSort extends Component {
     UNSAFE_componentWillMount(){
         this.sort()
     }
-    // 冒泡排序
+    // 选择排序
     sort = () => {
         let arr = [...this.state.arr]
         // 保存每次的排序  当前index  比较index  排序结果 对比交换情况
         let result = [{current:-1,sort:-1, data:[...arr],exchange:''}]
 
         for(let i = 0 , l = arr.length ; i< l-1; i ++){
-            for(let j = 0 ; j < l-i-1 ; j++){
+            for(let j = i+1 ; j < l ; j++){
+                let temp = arr[i]
                 let exchange = ''
-                if(arr[j] > arr[j+1]){
-                    exchange = `${arr[j]} ---> ${arr[j+1]}`;
-                   [arr[j],arr[j+1]] = [arr[j+1],arr[j]]
+                if(arr[i] > arr[j]){
+                    exchange = `${arr[i]} ---> ${arr[j]}`
+                    arr[i] = arr[j]
+                    arr[j] = temp
                 }
-                result.push({current:j,sort:j+1,data:[...arr],exchange}) 
+                result.push({current:i,sort:j,data:[...arr],exchange}) 
             }
         }
         
@@ -86,7 +88,7 @@ export default class BubbleSort extends Component {
         return (
             <div className='bubble-sort'>
                 <div>
-                    <span>冒泡排序</span>
+                    <span>选择排序</span>
                     <Button type='primary'
                             style={{marginLeft:400,}}
                             onClick={()=> this.sort()}

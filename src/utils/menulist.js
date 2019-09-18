@@ -83,6 +83,11 @@ const menuList = [
                 title:'insert-sort',
                 key:'/study/insert',
                 icon:'file'
+            },
+            {
+                title:'selection-sort',
+                key:'/study/select',
+                icon:'file'
             }
         ]
     }
