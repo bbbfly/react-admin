@@ -88,6 +88,14 @@ const menuList = [
                 title:'selection-sort',
                 key:'/study/select',
                 icon:'file'
+            },{
+                title:'binary-tree',
+                key:'/study/binary',
+                icon:'file'
+            },{
+                title:'css 3d 轮播图',
+                key:'/study/carousel',
+                icon:'file'
             }
         ]
     }

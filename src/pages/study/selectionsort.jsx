@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import {Button,InputNumber} from 'antd'
 import {CSSTransitionGroup} from 'react-transition-group'
 import './css.less'
-export default class BubbleSort extends Component {
+export default class SelectionSort extends Component {
     constructor(props){
         super(props)
         this.state={

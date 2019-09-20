@@ -19,6 +19,8 @@ import QuickSort from '../study/quickSort'
 import ReactRedux from '../study/react-redux.jsx'
 import InsertSort from '../study/insertsort'
 import SelectionSort from '../study/selectionsort'
+import BinaryTree from '../study/binarytree'
+import Carousel from '../study/carousel/carousel'
 import {logout} from '../../redux/actions'
 import './admin.less'
 const { Footer, Sider, Content} = Layout
@@ -54,6 +56,8 @@ const { Footer, Sider, Content} = Layout
                                 <Route path='/study/quick' component={QuickSort}/>
                                 <Route path='/study/insert' component={InsertSort}/>
                                 <Route path='/study/select' component={SelectionSort}/>
+                                <Route path='/study/binary' component={BinaryTree}/>
+                                <Route path='/study/carousel' component={Carousel}/>
                                 <Route  component={NotFound} />
                             </Switch>
                         </Content>
