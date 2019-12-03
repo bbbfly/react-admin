@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {Redirect,Switch,Route} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {Layout} from 'antd'
+import {Layout, Card} from 'antd'
 import Header from '../../components/header/header'
 import Leftnav from '../../components/leftnav/leftnav'
 import Home from '../home/home'
@@ -21,6 +21,8 @@ import InsertSort from '../study/insertsort'
 import SelectionSort from '../study/selectionsort'
 import BinaryTree from '../study/binarytree'
 import Carousel from '../study/carousel/carousel'
+import Progress from '../study/progress/progress'
+import CardCarousel from '../study/card-carousel/cardCarousel'
 import {logout} from '../../redux/actions'
 import './admin.less'
 const { Footer, Sider, Content} = Layout
@@ -58,6 +60,8 @@ const { Footer, Sider, Content} = Layout
                                 <Route path='/study/select' component={SelectionSort}/>
                                 <Route path='/study/binary' component={BinaryTree}/>
                                 <Route path='/study/carousel' component={Carousel}/>
+                                <Route path='/study/progress' component = {Progress}/>
+                                <Route path='/study/cardcarousel' component = {CardCarousel}/>
                                 <Route  component={NotFound} />
                             </Switch>
                         </Content>

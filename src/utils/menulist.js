@@ -96,6 +96,14 @@ const menuList = [
                 title:'css 3d 轮播图',
                 key:'/study/carousel',
                 icon:'file'
+            },{
+                title:'css 3d 进度条',
+                key:'/study/progress',
+                icon:'file'
+            },{
+                title:'卡片轮播图效果',
+                key:'/study/cardcarousel',
+                icon:'file'
             }
         ]
     }
